@@ -5,3 +5,18 @@ ATMAbout = Ce module a été développé par <a href="http://www.atm-consulting.
 
 supplierpriceSetup = Configuration du module supplierprice
 supplierpriceAbout = A propos du module supplierprice
+
+
+SupplierPrice=Tarifs fournisseur
+AddSupplierPrice=Ajouter un tarif fournisseur
+
+RefFourn=Référence fournisseur
+PERCENT=Pourcentage de réduction
+PRICE=Prix unitaire
+PERCENT/PRICE=Mixte
+CategoriesSupplier=Catégorie fournisseur
+DateBeginTarif=Date de début d'application du tarif <br /><small>(toujours disponible si non renseigné)</small>
+DateEndTarif=Date de fin d'application du tarif  <br /><small>(toujours disponible si non renseigné)</small>
+
+
+supplierprice_error_save=Erreur sur l'enregistrement

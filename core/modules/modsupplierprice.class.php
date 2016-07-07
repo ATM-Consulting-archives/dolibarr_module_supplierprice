@@ -87,7 +87,9 @@ class modsupplierprice extends DolibarrModules
 		//							'dir' => array('output' => 'othermodulename'),      // To force the default directories names
 		//							'workflow' => array('WORKFLOW_MODULE1_YOURACTIONTYPE_MODULE2'=>array('enabled'=>'! empty($conf->module1->enabled) && ! empty($conf->module2->enabled)', 'picto'=>'yourpicto@supplierprice')) // Set here all workflow context managed by module
 		//                        );
-		$this->module_parts = array();
+		$this->module_parts = array(
+			'trigger' => 1
+		);
 
 		// Data directories to create when module is enabled.
 		// Example: this->dirs = array("/supplierprice/temp");
@@ -136,7 +138,7 @@ class modsupplierprice extends DolibarrModules
 		// 'stock'            to add a tab in stock view
 		// 'thirdparty'       to add a tab in third party view
 		// 'user'             to add a tab in user view
-        $this->tabs = array();
+        $this->tabs = array('product:+tabSupplierPrice1:SupplierPrice:supplierprice@supplierprice:/supplierprice/card.php?id=__ID__');
 
         // Dictionaries
 	    if (! isset($conf->supplierprice->enabled))
@@ -253,6 +255,11 @@ class modsupplierprice extends DolibarrModules
 		dol_include_once('/supplierprice/config.php');
 		dol_include_once('/supplierprice/script/create-maj-base.php');
 
+		dol_include_once('/core/class/extrafields.class.php');
+        $extrafields=new ExtraFields($this->db);
+		$res = $extrafields->addExtraField('type_remise_achat', 'Type tarif fournisseur', 'select', 0, '', 'product', 0, 0, '', array("options"=> array("qte" => "quantite", "conditionnement" => "conditionnement")));
+		$res = $extrafields->addExtraField('unite_achat', 'Unité de vente', 'select', 0, '', 'product', 0, 0, '', array("options"=> array("weight" => "Poids", "size" => "Longueur", "surface" => "Surface", "volume" => "Volume", "unite" => "Unité")));
+		
 		$result=$this->_load_tables('/supplierprice/sql/');
 
 		return $this->_init($sql, $options);

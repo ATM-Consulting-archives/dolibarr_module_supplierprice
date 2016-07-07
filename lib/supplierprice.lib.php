@@ -53,3 +53,14 @@ function supplierpriceAdminPrepareHead()
 
     return $head;
 }
+
+function getSql()
+{
+	global $conf;
+	
+	// TODO finir la requête SQL -> reprendre ce qu'il y a dans tarif puis adapter
+	$sql = 'SELECT rowid, type_price, price, tva_tx, qty, ref_fourn, fk_soc FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement';
+	
+	
+	return $sql;
+}
