@@ -415,8 +415,10 @@ if ($id && (empty($action) || $action == 'view' || $action == 'delete'))
 
 	print '</div>'."\n";
 
-
-	$sql = getSql();
+	
+	
+	
+	$sql = getSql($object->id);
 
 	$r = new TSSRenderControler(new TSupplierPrice);
 	

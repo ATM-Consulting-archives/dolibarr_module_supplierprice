@@ -54,12 +54,21 @@ function supplierpriceAdminPrepareHead()
     return $head;
 }
 
-function getSql()
+function getSql($productId)
 {
 	global $conf;
 	
-	// TODO finir la requête SQL -> reprendre ce qu'il y a dans tarif puis adapter
-	$sql = 'SELECT rowid, type_price, price, tva_tx, qty, ref_fourn, fk_soc FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement';
+	// TODO finir la requête SQL -> reprendre ce qu'il y a dans tarif puis adapter (liste.php ligne 342)
+	//refaire un test si muiltidevise activé et reprendre la requete pour adapter si multidevise activé
+	$sql = 'SELECT sp_c.type_price, count.label AS country, soc.nom, categ.label AS category, sp_c.tva_tx, sp_c.qty, sp_c.remise_percent, sp_c.tva_tx, sp_c.price, sp_c.date_start, sp_c.date_end ';
+	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement sp_c ';
+	$sql .= 'left JOIN '.MAIN_DB_PREFIX.'societe soc ON soc.rowid=sp_c.fk_soc ';
+	$sql .= 'left JOIN '.MAIN_DB_PREFIX.'c_country count ON count.rowid=sp_c.fk_country ';
+	$sql .= 'left JOIN '.MAIN_DB_PREFIX.'categorie categ ON categ.rowid=sp_c.fk_categorie_fournisseur ';
+	$sql .= 'WHERE sp_c.fk_product='.$productId.' ';
+	
+	
+	
 	
 	
 	return $sql;
