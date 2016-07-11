@@ -1,7 +1,6 @@
 <?php
 
-class TSupplierPrice extends TObjetStd 
-{
+class TSupplierPrice extends TObjetStd{
 	function __construct() 
 	{
 		global $langs;

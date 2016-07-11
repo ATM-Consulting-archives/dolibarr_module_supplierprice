@@ -75,3 +75,44 @@ function getSql($productId)
 	
 	return $sql;
 }
+
+function get_all_products(){
+	global $db;
+	
+	$TData = array();
+	
+	$sql = 'SELECT rowid ';
+	$sql .= 'FROM '.MAIN_DB_PREFIX.'product ';
+	$resql = $db->query($sql);
+	
+	 if ($resql){
+			while ($line = $db->fetch_object($resql)){
+				
+				$TData[] = $line->rowid;
+			}
+		}
+	 var_dump($TData);
+	 
+	 return $TData;
+	
+}
+
+function select_all_supplierprices(){
+	global $db;
+	
+	$TData = array();
+	
+	$sql = 'SELECT rowid ';
+	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement ';
+	$resql = $db->query($sql);
+	
+	if($resql){
+		while($line = $db->fetch_object($resql)){
+			$TData[]=$line->rowid;
+		}
+	}
+	
+	var_dump($TData);
+	return $TData;
+	
+}
