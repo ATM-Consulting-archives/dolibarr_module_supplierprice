@@ -18,5 +18,16 @@ CategoriesSupplier=Catégorie fournisseur
 DateBeginTarif=Date de début d'application du tarif <br /><small>(toujours disponible si non renseigné)</small>
 DateEndTarif=Date de fin d'application du tarif  <br /><small>(toujours disponible si non renseigné)</small>
 
+Tarifs=Tarifs
+PriceType=Type de prix
+Devise=Devise
+Country=Pays
+Quantity=Quantité
+Unit=Unité
+Remise=Remise(%)
+Tarif=Tarif
+Total=Total
+Actions=Actions
+
 
 supplierprice_error_save=Erreur sur l'enregistrement

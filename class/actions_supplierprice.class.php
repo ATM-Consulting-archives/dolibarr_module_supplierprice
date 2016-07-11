@@ -51,7 +51,7 @@ class Actionssupplierprice
 	}
 
 	/**
-	 * Overloading the doActions function : replacing the parent's function with the one below
+	 * Overloading the formAddObjectLine function : replacing the parent's function with the one below
 	 *
 	 * @param   array()         $parameters     Hook metadatas (context, etc...)
 	 * @param   CommonObject    &$object        The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
@@ -59,30 +59,18 @@ class Actionssupplierprice
 	 * @param   HookManager     $hookmanager    Hook manager propagated to allow calling another hook
 	 * @return  int                             < 0 on error, 0 on success, 1 to replace standard code
 	 */
-	function doActions($parameters, &$object, &$action, $hookmanager)
-	{
-		$error = 0; // Error counter
-		$myvalue = 'test'; // A result value
-
-		print_r($parameters);
-		echo "action: " . $action;
-		print_r($object);
-
-		if (in_array('somecontext', explode(':', $parameters['context'])))
-		{
-		  // do something only for the context 'somecontext'
-		}
-
-		if (! $error)
-		{
-			$this->results = array('myreturn' => $myvalue);
-			$this->resprints = 'A text to show';
-			return 0; // or return 1 to replace standard code
-		}
-		else
-		{
-			$this->errors[] = 'Error message';
-			return -1;
-		}
+	function formAddObjectLine($parameters, $object, $action, $hookmanager){
+		global $db, $langs, $conf;
+		
+		if (in_array('ordersuppliercard', explode(':',$parameters['context']))
+			|| in_array('invoicesuppliercard', explode(':',$parameters['context'])));
+		//TODO pour chaque produit le fetcher. Comparer l'id produit avec le fk_soc de tarif. Si un tarif existe, rentre la case cochable.
+		
+		$TIdProducts = select_all_products();
+		$TIdSupplierPrices = select_all_supplierprices();
+		//TODO traiter l'information et renvoyer 
+		
 	}
+
+
 }

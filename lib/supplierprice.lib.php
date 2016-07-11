@@ -58,9 +58,11 @@ function getSql($productId)
 {
 	global $conf;
 	
-	// TODO finir la requête SQL -> reprendre ce qu'il y a dans tarif puis adapter (liste.php ligne 342)
+	// TODO Manque le total
 	//refaire un test si muiltidevise activé et reprendre la requete pour adapter si multidevise activé
-	$sql = 'SELECT sp_c.type_price, count.label AS country, soc.nom, categ.label AS category, sp_c.tva_tx, sp_c.qty, sp_c.remise_percent, sp_c.tva_tx, sp_c.price, sp_c.date_start, sp_c.date_end ';
+	$sql = 'SELECT sp_c.type_price, count.label AS Country, soc.nom AS Societe, categ.label AS category, sp_c.tva_tx, sp_c.qty, sp_c.unite, sp_c.remise_percent, sp_c.tva_tx, sp_c.price, sp_c.date_start, sp_c.date_end ';
+	//TODO ici viendra potentiellement le complément multidevise
+	if($conf->multidevise->enabled){}
 	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement sp_c ';
 	$sql .= 'left JOIN '.MAIN_DB_PREFIX.'societe soc ON soc.rowid=sp_c.fk_soc ';
 	$sql .= 'left JOIN '.MAIN_DB_PREFIX.'c_country count ON count.rowid=sp_c.fk_country ';
