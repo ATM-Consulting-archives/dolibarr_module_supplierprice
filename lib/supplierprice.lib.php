@@ -91,8 +91,6 @@ function get_all_products(){
 				$TData[] = $line->rowid;
 			}
 		}
-	 var_dump($TData);
-	 
 	 return $TData;
 	
 }
@@ -111,8 +109,6 @@ function select_all_supplierprices(){
 			$TData[]=$line->rowid;
 		}
 	}
-	
-	var_dump($TData);
 	return $TData;
 	
 }
