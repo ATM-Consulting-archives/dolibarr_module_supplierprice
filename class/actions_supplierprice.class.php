@@ -64,17 +64,16 @@ class Actionssupplierprice
 	function formAddObjectLine($parameters, $object, $action, $hookmanager){
 		global $db, $langs, $conf;
 		
+		define('INC_FROM_DOLIBARR', true);
+		dol_include_once('/supplierprice/config.php');
 		dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
 		dol_include_once('custom/supplierprice/class/supplierprice.class.php');
 		dol_include_once('product/class/product.class.php');
-				
-		
-		
-		
-		
+			
 		$TPDOdb = new TPDOdb;
 		
 		if (in_array('ordersuppliercard', explode(':',$parameters['context'])) || in_array('invoicesuppliercard', explode(':',$parameters['context']))){
+				
 			//TODO pour chaque produit le fetcher. Comparer l'id produit avec le fk_soc de tarif. Si un tarif existe, rentre la case cochable.
 			
 			$TIdProducts = get_all_products();
