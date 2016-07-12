@@ -24,7 +24,7 @@ switch ($action) {
 					'id'        => $supplierprice->rowid,
 					'ref_fourn' => $supplierprice->ref_fourn,
 					'qty'       => $supplierprice->qty,
-					'total'     => !empty($supplierprice->remise_percent) ? (($supplierprice->price*$supplierprice->remise_percent)/100 * $supplierprice->qty) : ($supplierprice->price * $supplierprice->qty)
+					'total'     => !empty($supplierprice->remise_percent) ? (($supplierprice->price-($supplierprice->price*($supplierprice->remise_percent/100))) * $supplierprice->qty) : ($supplierprice->price * $supplierprice->qty)
 			);
 		}
 		__out($TData);
