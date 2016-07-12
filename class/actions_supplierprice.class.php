@@ -100,8 +100,8 @@ class Actionssupplierprice
                 		</option>
                 	</select>
                 </td>
-                <td align="right"><?php
-                    ;
+               <td align="right"><?php
+                    //echo $form->load_tva();
                 ?></td>
                 <td align="right"><input type="text" value="1" class="flat" id="qty_supplierprice" name="qty_supplierprice" size="2"></td>
                 <td align="right"><input type="text" value="" class="flat" id="price_ht_supplierprice" name="price_ht_supplierprice" size="5"></td>
@@ -118,24 +118,36 @@ class Actionssupplierprice
 							type: 'POST', // On spécifie la méthode
 							dataType : 'json',
 							url: '<?php echo dol_buildpath('/supplierprice/script/interface.php', 2)?>',
-							data: { 'action' : 'appliquer_tarif',
+							data: { 'action' : 'select_produit',
 								'idprod_supplierprice': idproduct,
 								'json':1}
 						}).done(function(response){
 							var i=0;
 							$.each(response, function(){
-								console.log(response[i].id);
-								var nom = response[i].ref_fourn+' - '+response[i].total+' - '+response[i].qty+'€';
+								var nom = response[i].ref_fourn+' - '+response[i].total+'€ - '+response[i].qty;
 								$("#select_tarif").append(new Option(nom,response[i].id));
 								i++;
 							});
-								
-							
-							
 						});
-						
 					});
 					
+					$("#select_tarif").change(function(){
+						var idTarif = $(this).val();
+						$.ajax({
+							type : 'POST',
+							dataType :'json',
+							url : '<?php echo dol_buildpath('/supplierprice/script/interface.php', 2)?>',
+							data :{
+								'action' : 'appliquer_tarif',
+								'idtarif_supplierprice' : idTarif,
+								'json' : 1}
+							}).done(function(response){
+								$("#qty_supplierprice").attr("disabled", "disabled");
+								$("#qty_supplierprice").val(response.qty);
+								$("#price_ht_supplierprice").attr("disabled", "disabled");
+								$("#price_ht_supplierprice").val(response.total);
+							});
+						});
 				});
 				
 			</script>
