@@ -71,28 +71,75 @@ class Actionssupplierprice
 		dol_include_once('product/class/product.class.php');
 			
 		$TPDOdb = new TPDOdb;
+		$form = new Form($db);
+		$formcore = new TFormCore;
 		
 		if (in_array('ordersuppliercard', explode(':',$parameters['context'])) || in_array('invoicesuppliercard', explode(':',$parameters['context']))){
 				
-			//TODO pour chaque produit le fetcher. Comparer l'id produit avec le fk_soc de tarif. Si un tarif existe, rentre la case cochable.
 			
+			//Création d'une ligne permettant d'ajouter un Tarif appartenant à un produit
 			$TIdProducts = get_all_products();
 			$TIdSupplierPrices = select_all_supplierprices();
-			var_dump('toto');
-			foreach ($TIdProducts as $idproduct) {
-				$product = new Product($db);
-				$product->fetch($idproduct);
-				
-				foreach ($TIdSupplierPrices as $idSupplierprice) {
-					$supplierprice = new TSupplierPrice();
-					$supplierprice->load($TPDOdb, $idSupplierprice);
+			?>
+			idprod_supplierprice
+			<tr class="liste_titre nodrag nodrop">
+                <td >Ajout d'une ligne à partir d'un tarif défini pour un produit</td>
+                <td>Tarif à appliquer</td>
+                <td align="right">TVA</td>
+                <td align="right">Qté</td>
+                <td align="right">Total HT</td>
+                <td align="right">Réf.</td>
+                <td colspan="<?php echo 3 ?>">&nbsp;</td> <!-- TODO rendre le colspan dynamique -->
+            </tr>
+            <tr class="impair">
+                <td><?php 
+                    $form->select_produits('', 'idprod_supplierprice', '', 20);
+                    ?></td>
+                <td width="20%">
+                	<select style="width: 50%; text-align: left">
+                		<option>
+                			
+                		</option>
+                	</select>
+                </td>
+                <td align="right"><?php
+                    ;
+                ?></td>
+                <td align="right"><input type="text" value="1" class="flat" id="qty_qsp" name="qty_qsp" size="2"></td>
+                <td align="right"><input type="text" value="" class="flat" id="price_ht_qsp" name="price_ht_qsp" size="5"></td>
+                <td align="right"><input type="text" value="" class="flat" id="ref_qsp" name="ref_qsp" size="5"></td>
+                <td align="right">&nbsp;</td>
+                <td colspan="<?php echo $colspan ?>"><input type="button" name="bt_add_supplierprice" id="bt_add_supplierprice" value="Ajouter" class="button"/></td>
+            </tr>
+			
+			<script type="text/javascript">
+				$(document).ready(function() {
 					
-				
+					$("#idprod_supplierprice").change(function(){
+						$("#idprod_supplierprice option:selected").each(function(){
+							console.log($(this).val());
+							var idproduct = $(this).val();
+							$.ajax({
+							type: 'POST', // On spécifie la méthode
+							dataType : 'json',
+							url: '<?php echo dol_buildpath('/supplierprice/script/interface.php', 2)?>',
+							data: { 'idprod_supplierprice': idproduct,
+									'json' : 1 }, 
+							success: function (response) {
+								console.log(response);
+								$("#socid").append(new Option(nom,response));
+								}
+							} )
+						});
+					});
 					
-				}
+				});
 				
-			}
-			//TODO traiter l'information et renvoyer 
+			</script>
+			
+			<?php
+			
+			 
 		}
 		
 	}

@@ -95,13 +95,15 @@ function get_all_products(){
 	
 }
 
-function select_all_supplierprices(){
+//TODO Ajouter un parametre $date -> checker si $date entre datedeb et datefin
+function select_all_supplierprices($id=''){
 	global $db;
 	
 	$TData = array();
 	
 	$sql = 'SELECT rowid ';
 	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement ';
+	if($id!='') $sql .= 'WHERE fk_product = '.$id.' ';
 	$resql = $db->query($sql);
 	
 	if($resql){
