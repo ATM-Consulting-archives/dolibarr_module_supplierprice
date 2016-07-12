@@ -245,7 +245,6 @@ class TSupplierPrice extends TObjetStd{
 	function save(&$PDOdb) 
 	{
 		global $conf;
-		
 		if(empty($this->currency_code)) $this->currency_code = $conf->currency; 
 		
 		return parent::save($PDOdb);
