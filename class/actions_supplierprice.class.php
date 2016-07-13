@@ -92,7 +92,9 @@ class Actionssupplierprice
                 <td>Ajout d'une ligne à partir d'un tarif défini pour un produit</td>
                 <td>Tarif à appliquer</td>
                 <td align="right">TVA</td>
+                <td align="right">P.U. HT</td>
                 <td align="right">Qté</td>
+                <td align="right">Réduc.</td>
                 <td align="right">Total HT</td>
                 <td colspan="<?php echo 4 ?>">&nbsp;</td> <!-- TODO rendre le colspan dynamique -->
             </tr>
@@ -110,8 +112,10 @@ class Actionssupplierprice
                <td align="right"><?php
                     echo $form->load_tva('tva_tx_supplierprice',-1, $fournisseur);
                 ?></td>
+                <td align="right"><input type="text" value="1" class="flat" id="pu_supplierprice" name="pu_supplierprice" size="2"></td>
                 <td align="right"><input type="text" value="1" class="flat" id="qty_supplierprice" name="qty_supplierprice" size="2"></td>
-                <td align="right"><input type="text" value="" class="flat" id="price_ht_supplierprice" name="price_ht_supplierprice" size="5"></td>
+                <td align="right"><input type="text" value="1" class="flat" id="reduc_supplierprice" name="reduc_supplierprice" size="2"></td>
+                <td align="right"><input type="text" value="" class="flat" id="total_ht_supplierprice" name="total_ht_supplierprice" size="5"></td>
                 <td align="right">&nbsp;</td>
                 <td colspan="<?php echo $colspan ?>"><input type="button" name="bt_add_supplierprice" id="bt_add_supplierprice" value="Ajouter" class="button"/></td>
             </tr>
@@ -151,10 +155,16 @@ class Actionssupplierprice
 							}).done(function(response){
 								//$("#qty_supplierprice").attr("disabled", "disabled");
 								$("#qty_supplierprice").val(response.qty);
-								$("#price_ht_supplierprice").attr("disabled", "disabled");
-								$("#price_ht_supplierprice").val(response.total);
 								$("#tva_tx_supplierprice").val(response.TVA);
 								$("#tva_tx_supplierprice").attr("disabled", "disabled");
+								$("#pu_supplierprice").attr("disabled", "disabled");
+								$("#pu_supplierprice").val(response.pu);
+								$("#reduc_supplierprice").attr("disabled", "disabled");
+								$("#reduc_supplierprice").val(response.reduc);
+								
+								
+								$("#total_ht_supplierprice").attr("disabled", "disabled");
+								$("#total_ht_supplierprice").val(response.total);
 							});
 						});
 				});

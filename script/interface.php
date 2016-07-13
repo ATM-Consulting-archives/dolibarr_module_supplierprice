@@ -44,7 +44,9 @@ switch ($action) {
 					'ref_fourn' => $supplierprice->ref_fourn,
 					'qty'       => $supplierprice->qty,
 					'total'     => !empty($supplierprice->remise_percent) ? (($supplierprice->price-($supplierprice->price*($supplierprice->remise_percent/100))) * $supplierprice->qty) : ($supplierprice->price * $supplierprice->qty),
-					'TVA'       => $supplierprice->tva_tx
+					'TVA'       => $supplierprice->tva_tx,
+					'pu'        => empty($supplierprice->price) ? ($supplierprice->remise_percent) : ($supplierprice->price-($supplierprice->price*($supplierprice->remise_percent/100))),
+					'reduc'     => $supplierprice->remise_percent
 			);
 		__out($TData);
 		break;
