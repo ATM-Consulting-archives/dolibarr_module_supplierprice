@@ -69,13 +69,20 @@ class Actionssupplierprice
 		dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
 		dol_include_once('custom/supplierprice/class/supplierprice.class.php');
 		dol_include_once('product/class/product.class.php');
+		dol_include_once('societe/class/societe.class.php');
 			
 		$TPDOdb = new TPDOdb;
 		$form = new Form($db);
 		$formcore = new TFormCore;
 		
 		if (in_array('ordersuppliercard', explode(':',$parameters['context'])) || in_array('invoicesuppliercard', explode(':',$parameters['context']))){
-				
+			
+			$idCommandeFourn = GETPOST('id');
+			$commandeFourn = new CommandeFournisseur($db);
+			$fournisseur = new Societe($db);
+			$commandeFourn->fetch($idCommandeFourn);
+			$fournisseur->fetch($commandeFourn->socid);
+			 
 			
 			//Création d'une ligne permettant d'ajouter un Tarif appartenant à un produit
 			$TIdProducts = get_all_products();
@@ -101,7 +108,7 @@ class Actionssupplierprice
                 	</select>
                 </td>
                <td align="right"><?php
-                    //echo $form->load_tva();
+                    echo $form->load_tva('tva_tx_supplierprice',-1, $fournisseur);
                 ?></td>
                 <td align="right"><input type="text" value="1" class="flat" id="qty_supplierprice" name="qty_supplierprice" size="2"></td>
                 <td align="right"><input type="text" value="" class="flat" id="price_ht_supplierprice" name="price_ht_supplierprice" size="5"></td>
@@ -142,10 +149,12 @@ class Actionssupplierprice
 								'idtarif_supplierprice' : idTarif,
 								'json' : 1}
 							}).done(function(response){
-								$("#qty_supplierprice").attr("disabled", "disabled");
+								//$("#qty_supplierprice").attr("disabled", "disabled");
 								$("#qty_supplierprice").val(response.qty);
 								$("#price_ht_supplierprice").attr("disabled", "disabled");
 								$("#price_ht_supplierprice").val(response.total);
+								$("#tva_tx_supplierprice").val(response.TVA);
+								$("#tva_tx_supplierprice").attr("disabled", "disabled");
 							});
 						});
 				});
