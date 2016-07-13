@@ -77,17 +77,17 @@ class Actionssupplierprice
 		
 		if (in_array('ordersuppliercard', explode(':',$parameters['context'])) || in_array('invoicesuppliercard', explode(':',$parameters['context']))){
 			
-			$idCommandeFourn = GETPOST('id');
-			$commandeFourn = new CommandeFournisseur($db);
+			//var_dump($object);
 			$fournisseur = new Societe($db);
-			$commandeFourn->fetch($idCommandeFourn);
-			$fournisseur->fetch($commandeFourn->socid);
-			 
+			if (!empty($object->fourn_id)){
+				$fournisseur->fetch($object->fourn_id);
+			 }
 			
 			//Création d'une ligne permettant d'ajouter un Tarif appartenant à un produit
 			$TIdProducts = get_all_products();
 			$TIdSupplierPrices = select_all_supplierprices();
 			?>
+			
 			<tr class="liste_titre nodrag nodrop">
                 <td>Ajout d'une ligne à partir d'un tarif défini pour un produit</td>
                 <td>Tarif à appliquer</td>
@@ -112,16 +112,18 @@ class Actionssupplierprice
                <td align="right"><?php
                     echo $form->load_tva('tva_tx_supplierprice',-1, $fournisseur);
                 ?></td>
-                <td align="right"><input type="text" value="1" class="flat" id="pu_supplierprice" name="pu_supplierprice" size="2"></td>
-                <td align="right"><input type="text" value="1" class="flat" id="qty_supplierprice" name="qty_supplierprice" size="2"></td>
-                <td align="right"><input type="text" value="1" class="flat" id="reduc_supplierprice" name="reduc_supplierprice" size="2"></td>
-                <td align="right"><input type="text" value="" class="flat" id="total_ht_supplierprice" name="total_ht_supplierprice" size="5"></td>
+                <td align="right"><input type="text" value="" class="flat" id="pu_supplierprice" name="pu_supplierprice" size="2" disabled="disabled"></td>
+                <td align="right"><input type="text" value="" class="flat" id="qty_supplierprice" name="qty_supplierprice" size="2"></td>
+                <td align="right"><input type="text" value="" class="flat" id="reduc_supplierprice" name="reduc_supplierprice" size="2" disabled="disabled"></td>
+                <td align="right"><input type="text" value="" class="flat" id="total_ht_supplierprice" name="total_ht_supplierprice" size="5" disabled="disabled"></td>
                 <td align="right">&nbsp;</td>
                 <td colspan="<?php echo $colspan ?>"><input type="button" name="bt_add_supplierprice" id="bt_add_supplierprice" value="Ajouter" class="button"/></td>
             </tr>
 			
 			<script type="text/javascript">
 				$(document).ready(function() {
+					
+					$("#tva_tx_supplierprice").attr("disabled", "disabled");
 					
 					$("#idprod_supplierprice").change(function(){
 						var idproduct = $(this).val();
@@ -156,17 +158,49 @@ class Actionssupplierprice
 								//$("#qty_supplierprice").attr("disabled", "disabled");
 								$("#qty_supplierprice").val(response.qty);
 								$("#tva_tx_supplierprice").val(response.TVA);
-								$("#tva_tx_supplierprice").attr("disabled", "disabled");
-								$("#pu_supplierprice").attr("disabled", "disabled");
 								$("#pu_supplierprice").val(response.pu);
-								$("#reduc_supplierprice").attr("disabled", "disabled");
 								$("#reduc_supplierprice").val(response.reduc);
-								
-								
-								$("#total_ht_supplierprice").attr("disabled", "disabled");
 								$("#total_ht_supplierprice").val(response.total);
+								$("#qty_supplierprice").change(function(){
+									var total = $("#pu_supplierprice").val() * $("#qty_supplierprice").val();
+									$("#total_ht_supplierprice").val(total);
+								});
+								
 							});
 						});
+						
+					$("#bt_add_supplierprice").click(function() {
+                        
+                        $.ajax({
+                            url : "<?php echo dol_buildpath('/supplierprice/script/interface.php',1) ?>"
+                            ,data:{
+                                action:'addLine'
+                                ,element: <?php echo "'".$object->element."'" ?>
+                                ,idElement: <?php echo $object->id ?>
+                                ,idprod:$("#idprod_supplierprice").val()
+                                ,TVA:$('#stva_tx_supplierprice').val()
+                                ,fk_supplier:<?php echo !empty($object->socid) ? $fournisseur->id : '' ?>
+                                ,pu:$("#pu_supplierprice").val()
+                                ,qty:$("#qty_supplierprice").val()
+                                ,reduc:$("#reduc_supplierprice").val()
+                                ,ref:$("#total_ht_supplierprice").val()
+                            }
+                            ,method:"post"
+                            ,dataType:'json'
+                        }).done(function(data) {
+                            console.log(data);
+                            if(data.id>0) {
+                            
+                            	
+                            	
+                            }
+                            else{
+                                alert("Il y a une erreur dans votre saisie : "+data.error);
+                            }
+                            
+                        });          
+                    });
+                    
 				});
 				
 			</script>

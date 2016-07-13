@@ -50,6 +50,10 @@ switch ($action) {
 			);
 		__out($TData);
 		break;
+		
+	case 'addLine':
+		var_dump($_REQUEST);
+		break;
 	default:
 		
 		break;
