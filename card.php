@@ -110,7 +110,7 @@ if (empty($reshook))
 			setEventMessages($langs->trans("ErrorFieldRequired",$langs->transnoentitiesnoconv("Ref")), null, 'errors');
 		}
 		
-		if (! GETPOST('fk_soc'))
+		if (1>GETPOST('fk_soc'))
 		{
 			$error++;
 			setEventMessages($langs->trans("ErrorFieldRequired",$langs->transnoentitiesnoconv("supplier")), null, 'errors');
