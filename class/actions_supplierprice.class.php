@@ -80,8 +80,8 @@ class Actionssupplierprice
 			
 			//var_dump($object);
 			$fournisseur = new Societe($db);
-			if (!empty($object->fourn_id)){
-				$fournisseur->fetch($object->fourn_id);
+			if (!empty($object->socid)){
+				$fournisseur->fetch($object->socid);
 			 }
 			
 			//Création d'une ligne permettant d'ajouter un Tarif appartenant à un produit
@@ -120,7 +120,7 @@ class Actionssupplierprice
                 <td align="right">&nbsp;</td>
                 <td colspan="<?php echo $colspan ?>"><input type="button" name="bt_add_supplierprice" id="bt_add_supplierprice" value="Ajouter" class="button"/></td>
             </tr>
-			
+            
 			<script type="text/javascript">
 				$(document).ready(function() {
 					
@@ -181,7 +181,7 @@ class Actionssupplierprice
                                 ,'idprod':$("#idprod_supplierprice").val()
                                 ,'TVA':$('#tva_tx_supplierprice').val()
                                 ,'idSupplierPrice':$("#select_tarif").val()
-                                ,'fk_supplier':<?php echo !empty($object->socid) ? $fournisseur->id : '' ?>
+                                ,'fk_supplier':<?php echo empty($object->socid) ? $fournisseur->id : $object->socid ?>
                                 ,'pu':$("#pu_supplierprice").val()
                                 ,'qty':$("#qty_supplierprice").val()
                                 ,'reduc':$("#reduc_supplierprice").val()
