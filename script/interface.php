@@ -4,6 +4,8 @@ require('../config.php');
 dol_include_once('/supplierprice/config.php');
 dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
 dol_include_once('custom/supplierprice/class/supplierprice.class.php');
+dol_include_once('fourn/class/fournisseur.commande.class.php');
+dol_include_once('fourn/class/fournisseur.facture.class.php');
 dol_include_once('product/class/product.class.php');
 
 $action = GETPOST('action');
@@ -52,7 +54,32 @@ switch ($action) {
 		break;
 		
 	case 'addLine':
+		
 		var_dump($_REQUEST);
+		$element = GETPOST('element');
+		$idElement=GETPOST('idElement');
+		$idProd = GETPOST('idprod');
+		$fk_supplier = GETPOST('fk_supplier');
+		$qty = GETPOST('qty');
+		$pu=GETPOST('pu');
+		$tva = GETPOST('TVA');
+		$reduc = GETPOST('reduc_supplierprice');
+		$totalHT = GETPOST('totalHT');
+		$idTarif = GETPOST('idSupplierPrice');
+		
+		$supplierprice = new TSupplierPrice;
+		$supplierprice->load($PDOdb, $idTarif);
+		
+		$object = new $element($db);
+		$object->fetch($idElement);
+		
+		if($element=='CommandeFournisseur'){
+			$res = $object->addline('', $pu, $qty, $tva, 0.0, 0.0, $idProd, $idTarif, $supplierprice->ref_fourn, $reduc);
+			var_dump($res);	
+		}else if($element=='FactureFournisseur'){
+			$res = $object->addline('', $pu, $qty, $va);
+		}
+		
 		break;
 	default:
 		

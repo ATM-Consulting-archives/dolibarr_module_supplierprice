@@ -64,6 +64,7 @@ class Actionssupplierprice
 	function formAddObjectLine($parameters, $object, $action, $hookmanager){
 		global $db, $langs, $conf;
 		
+		
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once('/supplierprice/config.php');
 		dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
@@ -175,15 +176,16 @@ class Actionssupplierprice
                             url : "<?php echo dol_buildpath('/supplierprice/script/interface.php',1) ?>"
                             ,data:{
                                 action:'addLine'
-                                ,element: <?php echo "'".$object->element."'" ?>
+                                ,element: <?php echo "'".get_class($object)."'" ?>
                                 ,idElement: <?php echo $object->id ?>
                                 ,idprod:$("#idprod_supplierprice").val()
-                                ,TVA:$('#stva_tx_supplierprice').val()
+                                ,TVA:$('#tva_tx_supplierprice').val()
+                                ,idSupplierPrice:$("#select_tarif").val()
                                 ,fk_supplier:<?php echo !empty($object->socid) ? $fournisseur->id : '' ?>
                                 ,pu:$("#pu_supplierprice").val()
                                 ,qty:$("#qty_supplierprice").val()
                                 ,reduc:$("#reduc_supplierprice").val()
-                                ,ref:$("#total_ht_supplierprice").val()
+                                ,totalHT:$("#total_ht_supplierprice").val()
                             }
                             ,method:"post"
                             ,dataType:'json'
@@ -192,7 +194,7 @@ class Actionssupplierprice
                             if(data.id>0) {
                             
                             	
-                            	
+                            	location.reload();
                             }
                             else{
                                 alert("Il y a une erreur dans votre saisie : "+data.error);

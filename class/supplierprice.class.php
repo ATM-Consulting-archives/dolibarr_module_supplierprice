@@ -242,9 +242,29 @@ class TSupplierPrice extends TObjetStd{
 		return $TFk_categorie;
 	}
 	
-	function save(&$PDOdb) 
-	{
-		global $conf;
+	function save(&$PDOdb) {
+		global $db, $user;
+		
+		//Obligation d'avoir un prix fournisseur pour créer une ligne donc on en crée un à la vollée avec la ref le pu et la quantité du produit
+		$product_fourn = new ProductFournisseur($db);
+		$product_fourn->label = $this->ref_fourn;
+		$product_fourn->ref = $this->ref_fourn;
+		$product_fourn->fourn_price = $this->price;
+		$product_fourn->fourn_id = $this->fk_soc;
+		$product_fourn->product_fourn_id = $this->fk_product;
+		$product_fourn->fourn_tva_tx = $this->tva_tx;
+		$product_fourn->fourn_qty = $this->qty;
+		$product_fourn->id = $this->fk_product;
+		//$product_fourn->id = ;
+		//var_dump($product_fourn);
+		//$res=$product_fourn->create($user);
+		$product = new Product($db);
+		$product->fetch($this->fk_product);
+		$fourn = new Fournisseur($db);
+		$fourn->fetch($product_fourn->fourn_id);
+		
+		$res = $product_fourn->update_buyprice($this->qty, $this->price, $user, 'HT', $fourn, 1, $this->ref_fourn, $this->tva_tx);
+		
 		if(empty($this->currency_code)) $this->currency_code = $conf->currency; 
 		
 		return parent::save($PDOdb);
