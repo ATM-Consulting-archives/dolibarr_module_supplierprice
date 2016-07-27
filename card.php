@@ -89,6 +89,7 @@ $extrafields = new ExtraFields($db);
 * Put here all code to do according to value of "action" parameter
 ********************************************************************/
 
+//var_dump($_REQUEST);exit;
 $parameters=array();
 $reshook=$hookmanager->executeHooks('doActions',$parameters,$object,$action);    // Note that $action and $object may have been modified by some hooks
 if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
@@ -307,44 +308,46 @@ if ($action == 'create' || $action == 'edit')
 	?>
 		<script type="text/javascript">
 		
-			$('input[name=remise_percent]').change(function() {
-				var n_percent = parseInt($(this).val());
-				if (isNaN(n_percent)) { 
-					n_percent = 0;
-					$(this).val(0);
-				}
+		//POUR DEFINIR PLUS PRECISEMENT LES TYPES DE PRIX (utilité?)  
+		
+//			$('input[name=remise_percent]').change(function() {
+//				var n_percent = parseInt($(this).val());
+//				if (isNaN(n_percent)) { 
+//					n_percent = 0;
+//					$(this).val(0);
+//				}
 				
-				var price = $('#product_price').val();
-				if(n_percent>100 || n_percent<0) {
-					alert('<?php echo $langs->transnoentities('tarif_percent_not_between_0_100'); ?>');
-					$(this).val(0);
-					return false;
-				}
-				if($('#type_prix').val() != 'PERCENT/PRICE') {
-					$('input[name=price]').val(((100 - n_percent) * price / 100).toFixed(2));
-				}
-			});
+//				var price = $('#product_price').val();
+//				if(n_percent>100 || n_percent<0) {
+//					alert('<?php echo $langs->transnoentities('tarif_percent_not_between_0_100'); ?>');
+//					$(this).val(0);
+//					return false;
+//				}
+//				if($('#type_prix').val() != 'PERCENT/PRICE') {
+//					$('input[name=price]').val(((100 - n_percent) * price / 100).toFixed(2));
+//				}
+//			});
 			
-			$('input[name=price]').change(function() {
-				if($('#type_prix').val() != 'PERCENT/PRICE') {
-					var n_price = parseFloat($(this).val());
-					if (isNaN(n_price)) { 
-						n_price = 0;
-						$(this).val(0);
-					}
+//			$('input[name=price]').change(function() {
+//				if($('#type_prix').val() != 'PERCENT/PRICE') {
+//					var n_price = parseFloat($(this).val());
+//					if (isNaN(n_price)) { 
+//						n_price = 0;
+//						$(this).val(0);
+//					}
 					
-					var price = parseFloat($('#product_price').val());
-					var percent;
+//					var price = parseFloat($('#product_price').val());
+//					var percent;
+//					
+//					if (price == 0) {
+//						percent = 0;
+//					} else {
+//						percent = - (((n_price - price) / price) *100 );
+//					}
+//					$('#remise_percent').val(percent.toFixed(0));
 					
-					if (price == 0) {
-						percent = 0;
-					} else {
-						percent = - (((n_price - price) / price) *100 );
-					}
-					$('#remise_percent').val(percent.toFixed(0));
-					
-				}
-			});
+//				}
+//			});
 
 		</script>
 	<?php
