@@ -75,7 +75,7 @@ switch ($action) {
 		if($element=='CommandeFournisseur'){
 			$res = $object->addline('', $pu, $qty, $tva, 0.0, 0.0, $idProd, $idTarif, $supplierprice->ref_fourn, $reduc);
 		}else if($element=='FactureFournisseur'){
-			$res = $object->addline('', $pu, $qty, $va);
+			$res = $object->addline('', $pu, $tva, $object->localtax1, $object->localtax2, $qty, $idProd, $reduc);
 		}
 		
 		__out($object);
