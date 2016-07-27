@@ -70,6 +70,7 @@ switch ($action) {
 		$supplierprice = new TSupplierPrice;
 		$supplierprice->load($PDOdb, $idTarif);
 		
+		
 		$object = new $element($db);
 		$object->fetch($idElement);
 		

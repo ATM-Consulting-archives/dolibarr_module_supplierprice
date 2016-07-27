@@ -10,7 +10,7 @@ class TSupplierPrice extends TObjetStd{
 		parent::add_champs('unite_value', array('type' => 'int'));
 		parent::add_champs('ref_fourn,price_base_type,type_price,currency_code', array('type' => 'varchar', 'length' => 50));
 		parent::add_champs('price,tva_tx,qty,remise_percent', array('type' => 'float'));
-		parent::add_champs('fk_user_author,fk_product,fk_country,fk_categorie_fournisseur,fk_soc,fk_project', array('type' => 'int', 'index' => true));
+		parent::add_champs('fk_user_author,fk_product,fk_country,fk_categorie_fournisseur,fk_soc,fk_project,fk_product_fourn_price', array('type' => 'int', 'index' => true));
 		parent::add_champs('date_start,date_end', array('type' => 'date'));
 		
 		parent::_init_vars();

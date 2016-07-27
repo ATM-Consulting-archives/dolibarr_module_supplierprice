@@ -183,6 +183,9 @@ $formproduct = new FormProduct($db);
 // Part to create
 if ($action == 'create' || $action == 'edit')
 {
+	
+	$fk_product_fourn_price = get_next_product_supplier_price_id();
+	
 	$supplierprice = new TSupplierPrice;
 	if (!empty($conf->global->SUPPLIERPRICE_DEFAULT_TYPE)) $supplierprice->type_price = $conf->global->SUPPLIERPRICE_DEFAULT_TYPE;
 	if ($action == 'edit') $supplierprice->load($PDOdb, $fk_supplier_price);
@@ -297,6 +300,9 @@ if ($action == 'create' || $action == 'edit')
 	print '<tr><td width="30%">';
 	print $langs->trans('Remise(%)');
 	print '</td><td><input id="remise_percent" size="10" name="remise_percent" value="'.$supplierprice->remise_percent.'" />%</td></tr>';
+	
+	//Link to fournisseur price
+	print '<input type="hidden" name="fk_product_fourn_price" value="'.$fk_product_fourn_price.'"/>';
 	
 	?>
 		<script type="text/javascript">

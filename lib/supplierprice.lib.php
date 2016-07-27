@@ -114,3 +114,19 @@ function select_all_supplierprices($id=''){
 	return $TData;
 	
 }
+
+function get_next_product_supplier_price_id(){
+	global $db;
+	
+	$data = 0;
+	
+	$sql= 'SELECT MAX(rowid) AS rowid FROM '.MAIN_DB_PREFIX.'product_fournisseur_price ';
+	
+	$resql = $db->query($sql);
+	if($resql){
+		$res = $db->fetch_array($resql);
+				$data = $res['rowid'];
+	}
+	
+	return $data+1;
+}
