@@ -108,6 +108,12 @@ if (empty($reshook))
 			$error++;
 			setEventMessages($langs->trans("ErrorFieldRequired",$langs->transnoentitiesnoconv("Ref")), null, 'errors');
 		}
+		
+		if (! GETPOST('fk_soc'))
+		{
+			$error++;
+			setEventMessages($langs->trans("ErrorFieldRequired",$langs->transnoentitiesnoconv("supplier")), null, 'errors');
+		}
 
 		if (! $error)
 		{
@@ -231,7 +237,7 @@ if ($action == 'create' || $action == 'edit')
 	print '</td></tr>';
 	
      //fournisseur
-    print '<tr><td>'.$langs->trans('Supplier').'</td><td colspan="3">';
+    print '<tr><td class="fieldrequired">'.$langs->trans('Supplier').'</td><td colspan="3">';
     print $form->select_company($supplierprice->fk_soc, 'fk_soc','',1);
     print '</td></tr>';
     
