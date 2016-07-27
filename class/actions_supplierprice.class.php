@@ -175,17 +175,18 @@ class Actionssupplierprice
                         $.ajax({
                             url : "<?php echo dol_buildpath('/supplierprice/script/interface.php',1) ?>"
                             ,data:{
-                                action:'addLine'
-                                ,element: <?php echo "'".get_class($object)."'" ?>
-                                ,idElement: <?php echo $object->id ?>
-                                ,idprod:$("#idprod_supplierprice").val()
-                                ,TVA:$('#tva_tx_supplierprice').val()
-                                ,idSupplierPrice:$("#select_tarif").val()
-                                ,fk_supplier:<?php echo !empty($object->socid) ? $fournisseur->id : '' ?>
-                                ,pu:$("#pu_supplierprice").val()
-                                ,qty:$("#qty_supplierprice").val()
-                                ,reduc:$("#reduc_supplierprice").val()
-                                ,totalHT:$("#total_ht_supplierprice").val()
+                                'action':'addLine'
+                                ,'element': <?php echo "'".get_class($object)."'" ?>
+                                ,'idElement': <?php echo $object->id ?>
+                                ,'idprod':$("#idprod_supplierprice").val()
+                                ,'TVA':$('#tva_tx_supplierprice').val()
+                                ,'idSupplierPrice':$("#select_tarif").val()
+                                ,'fk_supplier':<?php echo !empty($object->socid) ? $fournisseur->id : '' ?>
+                                ,'pu':$("#pu_supplierprice").val()
+                                ,'qty':$("#qty_supplierprice").val()
+                                ,'reduc':$("#reduc_supplierprice").val()
+                                ,'totalHT':$("#total_ht_supplierprice").val()
+                                ,'json':1
                             }
                             ,method:"post"
                             ,dataType:'json'
@@ -193,7 +194,7 @@ class Actionssupplierprice
                             console.log(data);
                             if(data.id>0) {
                             
-                            	
+                            	console.log('toto');
                             	location.reload();
                             }
                             else{

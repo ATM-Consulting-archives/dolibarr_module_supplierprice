@@ -54,8 +54,6 @@ switch ($action) {
 		break;
 		
 	case 'addLine':
-		
-		var_dump($_REQUEST);
 		$element = GETPOST('element');
 		$idElement=GETPOST('idElement');
 		$idProd = GETPOST('idprod');
@@ -76,10 +74,11 @@ switch ($action) {
 		
 		if($element=='CommandeFournisseur'){
 			$res = $object->addline('', $pu, $qty, $tva, 0.0, 0.0, $idProd, $idTarif, $supplierprice->ref_fourn, $reduc);
-			var_dump($res);	
 		}else if($element=='FactureFournisseur'){
 			$res = $object->addline('', $pu, $qty, $va);
 		}
+		
+		__out($object);
 		
 		break;
 	default:
