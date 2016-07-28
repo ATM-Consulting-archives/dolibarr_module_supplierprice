@@ -56,7 +56,7 @@ $langs->Load("bank");
 $langs->Load("supplierprice@supplierprice");
 
 // Get parameters
-$id			= GETPOST('id','int');
+$id			= empty(GETPOST('fk_product'))?GETPOST('id','int'):GETPOST('fk_product');
 $ref		= GETPOST('ref','alpha');
 $action		= GETPOST('action','alpha');
 $fk_supplier_price = GETPOST('fk_supplier_price', 'int');
@@ -193,8 +193,7 @@ if ($action == 'create' || $action == 'edit')
 	if ($action == 'edit') $supplierprice->load($PDOdb, $idsupplierprice);;
 	
 	print load_fiche_titre($langs->trans("SupplierPrice"));
-
-	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
+	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'?'.$object->id.'">';
 	print '<input type="hidden" name="action" value="add">';
 	print '<input type="hidden" name="id" value="'.$object->id.'">';
 	print '<input type="hidden" name="fk_product" value="'.$object->id.'">';
