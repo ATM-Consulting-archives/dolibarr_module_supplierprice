@@ -28,6 +28,7 @@ Remise=Remise(%)
 Tarif=Tarif
 Total=Total
 Actions=Actions
+Category=Catégorie
 
 
 supplierprice_error_save=Erreur sur l'enregistrement
