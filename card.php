@@ -45,6 +45,8 @@ include_once DOL_DOCUMENT_ROOT . '/core/lib/product.lib.php';
 include_once DOL_DOCUMENT_ROOT . '/product/class/product.class.php';
 include_once DOL_DOCUMENT_ROOT . '/product/class/html.formproduct.class.php';
 
+global $db;
+
 
 // TODO voir si on garde
 dol_include_once('/categories/class/categorie.class.php');
@@ -145,17 +147,25 @@ if (empty($reshook))
 
 	// Cancel
 	if (($action == 'add' || $action == 'update') && GETPOST('cancel')) $action='view';
-
+	
+	$supplierprice = new TSupplierPrice;
+	
 	// Action to delete
 	if ($action == 'confirm_delete')
 	{
-		//var_dump($object);
-		//$result=$object->delete($user);
-		if ($result > 0)
+		$supplierprice->load($PDOdb, GETPOST('fk_supplier_price'));		
+		
+		$productPrice = new ProductFournisseur($db);
+		
+		$result=$productPrice->remove_product_fournisseur_price($supplierprice->fk_product_fourn_price);
+		if ($result > 0 )
 		{
+			
+			$supplierprice->delete($PDOdb);
+		
 			// Delete OK
 			setEventMessages("RecordDeleted", null, 'mesgs');
-			header("Location: ".dol_buildpath('/supplierprice/card.php?'.$object->id,1));
+			header("Location: ".dol_buildpath('/supplierprice/card.php?id='.$object->id,1));
 			exit;
 		}
 		else
@@ -387,6 +397,7 @@ if ($id && (empty($action) || $action == 'view' || $action == 'delete'))
 	dol_fiche_head($head, 'tabSupplierPrice1', $titre, 0, $picto);
 
 	if ($action == 'delete') {
+		$fk_supplier_price = GETPOST('id');
 		$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"] . '?id=' . $object->id . '&fk_supplier_price=' . $fk_supplier_price, $langs->trans('DeleteMyOjbect'), $langs->trans('ConfirmDeleteMyObject'), 'confirm_delete', '', 0, 1);
 		print $formconfirm;
 	}
