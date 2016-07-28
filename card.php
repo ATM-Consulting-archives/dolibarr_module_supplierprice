@@ -89,7 +89,7 @@ $extrafields = new ExtraFields($db);
 * Put here all code to do according to value of "action" parameter
 ********************************************************************/
 
-//var_dump($_REQUEST);exit;
+//var_dump($object);
 $parameters=array();
 $reshook=$hookmanager->executeHooks('doActions',$parameters,$object,$action);    // Note that $action and $object may have been modified by some hooks
 if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
@@ -149,12 +149,13 @@ if (empty($reshook))
 	// Action to delete
 	if ($action == 'confirm_delete')
 	{
-		$result=$object->delete($user);
+		//var_dump($object);
+		//$result=$object->delete($user);
 		if ($result > 0)
 		{
 			// Delete OK
 			setEventMessages("RecordDeleted", null, 'mesgs');
-			header("Location: ".dol_buildpath('/mymodule/list.php',1));
+			header("Location: ".dol_buildpath('/supplierprice/card.php?'.$object->id,1));
 			exit;
 		}
 		else
@@ -184,12 +185,12 @@ $formproduct = new FormProduct($db);
 // Part to create
 if ($action == 'create' || $action == 'edit')
 {
-	
+	$idsupplierprice = GETPOST('id');
 	$fk_product_fourn_price = get_next_product_supplier_price_id();
 	
 	$supplierprice = new TSupplierPrice;
 	if (!empty($conf->global->SUPPLIERPRICE_DEFAULT_TYPE)) $supplierprice->type_price = $conf->global->SUPPLIERPRICE_DEFAULT_TYPE;
-	if ($action == 'edit') $supplierprice->load($PDOdb, $fk_supplier_price);
+	if ($action == 'edit') $supplierprice->load($PDOdb, $idsupplierprice);;
 	
 	print load_fiche_titre($langs->trans("SupplierPrice"));
 
