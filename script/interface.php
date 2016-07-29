@@ -37,19 +37,21 @@ switch ($action) {
 					
 					$supplierprice->load($PDOdb, $id_supplierprice);
 					$TData[] = array(
+								'rowid' => $pricefourn->product_fourn_price_id,
 								'ref' => $product->ref,
 								'libelle' => $product->label,
 								'price' => $pricefourn->fourn_price,
 								'remise' => $pricefourn->fourn_remise_percent,
 								'qty' => $pricefourn->fourn_qty,
 								'date_deb' => date('d/m/Y',$supplierprice->date_start),
-								'date_fin' => date('d/m/Y',$supplierprice->date_end),
+								'date_fin' => date('d/m/Y',$supplierprice->date_end)
 														
 					);
 				}
 			}else{
 				
 				$TData[] = array(
+							'rowid' => $pricefourn->product_fourn_price_id,
 							'ref' => $product->ref,
 							'libelle' => $product->label,
 							'price' => $pricefourn->fourn_price,

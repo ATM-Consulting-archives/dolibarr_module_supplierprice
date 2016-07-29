@@ -101,11 +101,32 @@ class Actionssupplierprice
 								data: { 'action' : 'get_produits',
 									'json':1}
 							}).done(function(response){
+								selectprice.empty();
 								var i=0;
+								
+								
 								$.each(response, function(){
+									console.log(response[i]);
+									
+									if (response[i].remise != 0){
+										var percentage = (response[i].price * response[i].remise)/100;
+										var puHT = (response[i].price/response[i].qty)-percentage;
+									}else{
+										var puHT = response[i].price/response[i].qty;
+									}
+									selectprice.append
+									if((!response[i].date_deb) && (!response[i].date_fin )){
+										selectprice.append('<option value="'+response[i].rowid+'">'+response[i].ref+' - '+response[i].libelle+' - '+puHT.toFixed(2)+'€/U - '+response[i].qty+'U</option>')
+									}else if((response[i].date_deb) && (!response[i].date_fin )){
+										selectprice.append('<option value="'+response[i].rowid+'">'+response[i].ref+' - '+response[i].libelle+' - '+puHT.toFixed(2)+'€/U - '+response[i].qty+'U - à partir du '+response[i].date_deb+'</option>')
+									}else{
+										selectprice.append('<option value="'+response[i].rowid+'">'+response[i].ref+' - '+response[i].libelle+' - '+puHT.toFixed(2)+'€/U - '+response[i].qty+'U - du '+response[i].date_deb+' au '+response[i].date_fin+'</option>')
+									}
 									
 									i++;
 								});
+								
+								
 							});
 					}
 					
