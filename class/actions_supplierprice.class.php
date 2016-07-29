@@ -84,133 +84,38 @@ class Actionssupplierprice
 				$fournisseur->fetch($object->socid);
 			 }
 			
-			//Création d'une ligne permettant d'ajouter un Tarif appartenant à un produit
-			$TIdProducts = get_all_products();
-			$TIdSupplierPrices = select_all_supplierprices();
+			
 			?>
 			
-			<tr class="liste_titre nodrag nodrop">
-                <td>Ajout d'une ligne à partir d'un tarif défini pour un produit</td>
-                <td>Tarif à appliquer</td>
-                <td align="right">TVA</td>
-                <td align="right">P.U. HT</td>
-                <td align="right">Qté</td>
-                <td align="right">Réduc.</td>
-                <td align="right">Total HT</td>
-                <td colspan="<?php echo 4 ?>">&nbsp;</td> <!-- TODO rendre le colspan dynamique -->
-            </tr>
-            <tr class="impair">
-                <td><?php 
-                    $form->select_produits('', 'idprod_supplierprice', '', 20);
-                    ?></td>
-               		<td width="20%">
-                	<select id="select_tarif" style="width: 50%; text-align: left">
-                		<option>
-                			
-                		</option>
-                	</select>
-                </td>
-               <td align="right"><?php
-                    echo $form->load_tva('tva_tx_supplierprice',-1, $fournisseur);
-                ?></td>
-                <td align="right"><input type="text" value="" class="flat" id="pu_supplierprice" name="pu_supplierprice" size="2" disabled="disabled"></td>
-                <td align="right"><input type="text" value="" class="flat" id="qty_supplierprice" name="qty_supplierprice" size="2"></td>
-                <td align="right"><input type="text" value="" class="flat" id="reduc_supplierprice" name="reduc_supplierprice" size="2" disabled="disabled"></td>
-                <td align="right"><input type="text" value="" class="flat" id="total_ht_supplierprice" name="total_ht_supplierprice" size="5" disabled="disabled"></td>
-                <td align="right">&nbsp;</td>
-                <td colspan="<?php echo $colspan ?>"><input type="button" name="bt_add_supplierprice" id="bt_add_supplierprice" value="Ajouter" class="button"/></td>
-            </tr>
-            
 			<script type="text/javascript">
 				$(document).ready(function() {
 					
-					$("#tva_tx_supplierprice").attr("disabled", "disabled");
+					var selectprice = $("#idprodfournprice");
 					
-					$("#idprod_supplierprice").change(function(){
-						var idproduct = $(this).val();
-						$.ajax({
-							type: 'POST', // On spécifie la méthode
-							dataType : 'json',
-							url: '<?php echo dol_buildpath('/supplierprice/script/interface.php', 2)?>',
-							data: { 'action' : 'select_produit',
-								'idprod_supplierprice': idproduct,
-								'json':1}
-						}).done(function(response){
-							var i=0;
-							$.each(response, function(){
-								var nom = response[i].ref_fourn+' - '+response[i].total+'€ - '+response[i].qty;
-								$("#select_tarif").append(new Option(nom,response[i].id));
-								i++;
-							});
-						});
-					});
-					
-					$("#select_tarif").change(function(){
-						var idTarif = $(this).val();
-						$.ajax({
-							type : 'POST',
-							dataType :'json',
-							url : '<?php echo dol_buildpath('/supplierprice/script/interface.php', 2)?>',
-							data :{
-								'action' : 'appliquer_tarif',
-								'idtarif_supplierprice' : idTarif,
-								'json' : 1}
-							}).done(function(response){
-								//$("#qty_supplierprice").attr("disabled", "disabled");
-								$("#qty_supplierprice").val(response.qty);
-								$("#tva_tx_supplierprice").val(response.TVA);
-								$("#pu_supplierprice").val(response.pu);
-								$("#reduc_supplierprice").val(response.reduc);
-								$("#total_ht_supplierprice").val(response.total);
-								$("#qty_supplierprice").change(function(){
-									var total = $("#pu_supplierprice").val() * $("#qty_supplierprice").val();
-									$("#total_ht_supplierprice").val(total);
-								});
-								
-							});
-						});
+					if(selectprice.length>0){
 						
-					$("#bt_add_supplierprice").click(function() {
-                        
-                        $.ajax({
-                            url : "<?php echo dol_buildpath('/supplierprice/script/interface.php',1) ?>"
-                            ,data:{
-                                'action':'addLine'
-                                ,'element': <?php echo "'".get_class($object)."'" ?>
-                                ,'idElement': <?php echo $object->id ?>
-                                ,'idprod':$("#idprod_supplierprice").val()
-                                ,'TVA':$('#tva_tx_supplierprice').val()
-                                ,'idSupplierPrice':$("#select_tarif").val()
-                                ,'fk_supplier':<?php echo empty($object->socid) ? $fournisseur->id : $object->socid ?>
-                                ,'pu':$("#pu_supplierprice").val()
-                                ,'qty':$("#qty_supplierprice").val()
-                                ,'reduc':$("#reduc_supplierprice").val()
-                                ,'totalHT':$("#total_ht_supplierprice").val()
-                                ,'json':1
-                            }
-                            ,method:"post"
-                            ,dataType:'json'
-                        }).done(function(data) {
-                            console.log(data);
-                            if(data.id>0) {
-                            
-                            	console.log('toto');
-                            	location.reload();
-                            }
-                            else{
-                                alert("Il y a une erreur dans votre saisie : "+data.error);
-                            }
-                            
-                        });          
-                    });
-                    
+						$.ajax({
+								type: 'POST', // On spécifie la méthode
+								dataType : 'json',
+								url: '<?php echo dol_buildpath('/supplierprice/script/interface.php', 2)?>',
+								data: { 'action' : 'get_produits',
+									'json':1}
+							}).done(function(response){
+								var i=0;
+								$.each(response, function(){
+									
+									i++;
+								});
+							});
+					}
+					
+					
+					
 				});
 				
 			</script>
-			
+				
 			<?php
-			
-			 
 		}
 		
 	}

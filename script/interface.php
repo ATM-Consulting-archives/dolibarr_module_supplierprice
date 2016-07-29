@@ -6,6 +6,7 @@ dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
 dol_include_once('custom/supplierprice/class/supplierprice.class.php');
 dol_include_once('fourn/class/fournisseur.commande.class.php');
 dol_include_once('fourn/class/fournisseur.facture.class.php');
+dol_include_once('fourn/class/fournisseur.product.class.php');
 dol_include_once('product/class/product.class.php');
 
 $action = GETPOST('action');
@@ -14,71 +15,50 @@ $PDOdb = new TPDOdb;
 
 
 switch ($action) {
-	case 'select_produit':
-		$id = GETPOST('idprod_supplierprice');
-		$TproductSupplierPrices = select_all_supplierprices($id);
-		
+	case 'get_produits':
+		global $db;
+			
 		$TData = array();
-		
-		foreach ($TproductSupplierPrices as $idsupplierprice) {
-			$supplierprice = new TSupplierPrice;
-			$supplierprice->load($PDOdb, $idsupplierprice);
-			$TData[] = array(
-					'id'        => $supplierprice->rowid,
-					'ref_fourn' => $supplierprice->ref_fourn,
-					'qty'       => $supplierprice->qty,
-					'total'     => !empty($supplierprice->remise_percent) ? (($supplierprice->price-($supplierprice->price*($supplierprice->remise_percent/100))) * $supplierprice->qty) : ($supplierprice->price * $supplierprice->qty)
-			);
+			
+		$allsupplierprices = get_all_prices_fourn();
+		foreach($allsupplierprices as $supplierpriceid){
+			
+			$pricefourn = new ProductFournisseur($db);
+			$product = new Product($db);
+			
+			$pricefourn->fetch_product_fournisseur_price($supplierpriceid);
+			$TSupplierpriceIds = get_all_supplier_prices($pricefourn->product_fourn_price_id);
+			
+			$product->fetch($pricefourn->id);
+			
+			if (!empty($TSupplierpriceIds)){
+				foreach ($TSupplierpriceIds as $id_supplierprice){
+					$supplierprice = new TSupplierPrice;
+					
+					$supplierprice->load($PDOdb, $id_supplierprice);
+					$TData[] = array(
+								'ref' => $product->ref,
+								'libelle' => $product->label,
+								'price' => $pricefourn->fourn_price,
+								'remise' => $pricefourn->fourn_remise_percent,
+								'qty' => $pricefourn->fourn_qty,
+								'date_deb' => date('d/m/Y',$supplierprice->date_start),
+								'date_fin' => date('d/m/Y',$supplierprice->date_end),
+														
+					);
+				}
+			}else{
+				
+				$TData[] = array(
+							'ref' => $product->ref,
+							'libelle' => $product->label,
+							'price' => $pricefourn->fourn_price,
+							'remise' => $pricefourn->fourn_remise_percent,
+							'qty' => $pricefourn->fourn_qty
+				);
+			}	
 		}
 		__out($TData);
-		
-		break;
-		
-	case 'appliquer_tarif':
-		$id = GETPOST('idtarif_supplierprice');
-		
-		$TData = array();
-		
-		$supplierprice = new TSupplierPrice;
-		$supplierprice->load($PDOdb, $id);
-		$TData = array(
-					'id'        => $supplierprice->rowid,
-					'ref_fourn' => $supplierprice->ref_fourn,
-					'qty'       => $supplierprice->qty,
-					'total'     => !empty($supplierprice->remise_percent) ? (($supplierprice->price-($supplierprice->price*($supplierprice->remise_percent/100))) * $supplierprice->qty) : ($supplierprice->price * $supplierprice->qty),
-					'TVA'       => $supplierprice->tva_tx,
-					'pu'        => empty($supplierprice->price) ? ($supplierprice->remise_percent) : ($supplierprice->price-($supplierprice->price*($supplierprice->remise_percent/100))),
-					'reduc'     => $supplierprice->remise_percent
-			);
-		__out($TData);
-		break;
-		
-	case 'addLine':
-		$element = GETPOST('element');
-		$idElement=GETPOST('idElement');
-		$idProd = GETPOST('idprod');
-		$fk_supplier = GETPOST('fk_supplier');
-		$qty = GETPOST('qty');
-		$pu=GETPOST('pu');
-		$tva = GETPOST('TVA');
-		$reduc = GETPOST('reduc_supplierprice');
-		$totalHT = GETPOST('totalHT');
-		$idTarif = GETPOST('idSupplierPrice');
-		
-		$supplierprice = new TSupplierPrice;
-		$supplierprice->load($PDOdb, $idTarif);
-		
-		
-		$object = new $element($db);
-		$object->fetch($idElement);
-		
-		if($element=='CommandeFournisseur'){
-			$res = $object->addline('', $pu, $qty, $tva, 0.0, 0.0, $idProd, $idTarif, $supplierprice->ref_fourn, $reduc);
-		}else if($element=='FactureFournisseur'){
-			$res = $object->addline('', $pu, $tva, $object->localtax1, $object->localtax2, $qty, $idProd, $reduc);
-		}
-		
-		__out($object);
 		
 		break;
 	default:

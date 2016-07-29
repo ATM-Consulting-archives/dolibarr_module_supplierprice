@@ -252,6 +252,7 @@ class TSupplierPrice extends TObjetStd{
 		$product_fourn->fourn_price = $this->price;
 		$product_fourn->fourn_id = $this->fk_soc;
 		$product_fourn->product_fourn_id = $this->fk_product;
+		$product_fourn->fourn_remise_percent = $this->remise_percent;
 		$product_fourn->fourn_tva_tx = $this->tva_tx;
 		$product_fourn->fourn_qty = $this->qty;
 		$product_fourn->id = $this->fk_product;

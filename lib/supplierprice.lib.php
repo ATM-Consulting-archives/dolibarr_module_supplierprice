@@ -60,7 +60,7 @@ function getSql($productId)
 	
 	// TODO Manque le total
 	//refaire un test si muiltidevise activé et reprendre la requete pour adapter si multidevise activé
-	$sql = 'SELECT sp_c.rowid AS id, sp_c.type_price, count.label AS Pays, soc.nom AS Societe, categ.label AS Catégorie, sp_c.tva_tx, sp_c.qty, sp_c.unite, sp_c.remise_percent, sp_c.tva_tx, sp_c.price, sp_c.date_start, sp_c.date_end, " " AS Actions ';
+	$sql = 'SELECT sp_c.rowid AS id, sp_c.type_price, count.label AS Pays, soc.nom AS Societe, sp_c.tva_tx, sp_c.qty, sp_c.remise_percent, sp_c.tva_tx, sp_c.price, sp_c.date_start, sp_c.date_end, " " AS Actions ';
 	//TODO ici viendra potentiellement le complément multidevise
 	if($conf->multidevise->enabled){}
 	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement sp_c ';
@@ -95,14 +95,14 @@ function get_all_products(){
 	
 }
 
-//TODO Ajouter un parametre $date -> checker si $date entre datedeb et datefin
-function select_all_supplierprices($id=''){
+
+function get_all_prices_fourn($id=''){
 	global $db;
 	
 	$TData = array();
 	
-	$sql = 'SELECT rowid ';
-	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement ';
+	$sql = 'SELECT pfp.rowid ';
+	$sql .= 'FROM '.MAIN_DB_PREFIX.'product_fournisseur_price pfp ';
 	if($id!='') $sql .= 'WHERE fk_product = '.$id.' ';
 	$resql = $db->query($sql);
 	
@@ -113,5 +113,28 @@ function select_all_supplierprices($id=''){
 	}
 	return $TData;
 	
+}
+
+function get_all_supplier_prices($fk_prixfourn, $date_deb=0, $datefin=0){
+	global $db;
+	
+	$TData = array();
+	
+	$sql = 'SELECT rowid ';
+	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement ';
+	$sql .= 'WHERE (fk_product_fourn_price ='.$fk_prixfourn.') ';
+	if (!empty($date_deb)) $sql .= 'AND ('.$date_deb.' BETWEEN (date_start AND date_end)) ';
+	$sql .= 'ORDER BY date_start DESC, remise_percent DESC ';
+	
+	$resql = $db->query($sql);
+	
+	if ($resql){
+		while ($line = $db->fetch_object($resql)){
+			$TData[] = $line->rowid;
+		}
+	}
+	
+	
+	return $TData;
 }
 
