@@ -196,7 +196,6 @@ $formproduct = new FormProduct($db);
 if ($action == 'create' || $action == 'edit')
 {
 	$idsupplierprice = GETPOST('id');
-	$fk_product_fourn_price = get_next_product_supplier_price_id();
 	
 	$supplierprice = new TSupplierPrice;
 	if (!empty($conf->global->SUPPLIERPRICE_DEFAULT_TYPE)) $supplierprice->type_price = $conf->global->SUPPLIERPRICE_DEFAULT_TYPE;

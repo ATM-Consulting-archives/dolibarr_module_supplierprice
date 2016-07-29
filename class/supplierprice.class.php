@@ -262,9 +262,11 @@ class TSupplierPrice extends TObjetStd{
 		$product->fetch($this->fk_product);
 		$fourn = new Fournisseur($db);
 		$fourn->fetch($product_fourn->fourn_id);
-		
 		$res = $product_fourn->update_buyprice($this->qty, $this->price, $user, 'HT', $fourn, 1, $this->ref_fourn, $this->tva_tx);
 		
+		
+		
+		$this->fk_product_fourn_price = $res;
 		if(empty($this->currency_code)) $this->currency_code = $conf->currency; 
 		
 		return parent::save($PDOdb);
