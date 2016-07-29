@@ -233,9 +233,6 @@ if ($action == 'create' || $action == 'edit')
 	print 'HT</td>';
 	print '</tr>';
 	
-	print '<tr><td width="30%">'.$langs->trans('PriceType').'</td><td>';
-    print $form->selectarray("type_price", $supplierprice->TType_price, $supplierprice->type_price);
-    print '</td></tr>';
     
     if($conf->multidevise->enabled){
         //Devise
@@ -254,10 +251,6 @@ if ($action == 'create' || $action == 'edit')
     print $form->select_company($supplierprice->fk_soc, 'fk_soc','',1);
     print '</td></tr>';
     
-    //categorie
-	print '<tr><td>'.$langs->trans('CategoriesSupplier').'</td><td colspan="3">';
-	print $form->select_all_categories(2, ($action=='edit') ? $supplierprice->fk_categorie_client : 'auto', 'fk_categorie_client');
-	print '</td></tr>';
 
 	//Projet
 	if (! empty($conf->projet->enabled)) 
@@ -365,12 +358,7 @@ if ($action == 'create' || $action == 'edit')
 	print '<tr><td width="30%">';
 	print $langs->trans('Quantity');
 	print '</td><td><input size="10" name="qty" value="'.__val($supplierprice->qty,1,'double',true).'"></td></tr>';
-	print '<tr><td width="30%">';
-	print $langs->trans('Unit');
-	print '</td><td>';
-	if($object->array_options['options_unite_vente']=='unite') print 'U';
-	else print $formproduct->select_measuring_units("weight_units", $object->array_options['options_unite_vente'], ($action=='edit') ? $supplierprice->unite_value : $object->{$object->array_options['options_unite_vente'].'_units'});
-	print '</td></tr>';
+
 	
 	
 	
