@@ -140,7 +140,7 @@ class Interfacesupplierpricetrigger
 			$res = $supplierprice->load($PDOdb, $idSupplierprice);
 			if($res){
 				
-				if(!empty($supplierprice->date_start)){
+				if(!empty($date_start_line)){
 					
 					if ($date_end_line > $supplierprice->date_end){
 						setEventMessage('Les dates saisies ne correspondent pas à celles du tarif choisi', 'errors');
