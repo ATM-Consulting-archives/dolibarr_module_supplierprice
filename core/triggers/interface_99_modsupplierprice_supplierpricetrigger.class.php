@@ -127,7 +127,7 @@ class Interfacesupplierpricetrigger
 			}
 			$PDOdb = new TPDOdb;
 			$date_start_line = strtotime(str_replace('/', '-', GETPOST('date_start')));
-			$date_end_line = strtotime(GETPOST('date_end'));
+			$date_end_line = strtotime(str_replace('/', '-',GETPOST('date_end')));
 			$idprodfournprice = GETPOST('idprodfournprice');
 			$idProduit = GETPOST('id');
 			
@@ -141,7 +141,6 @@ class Interfacesupplierpricetrigger
 			if($res){
 				
 				if(!empty($date_start_line)){
-					
 					if ($date_end_line > $supplierprice->date_end){
 						setEventMessage('Les dates saisies ne correspondent pas à celles du tarif choisi', 'errors');
 						return -1;
@@ -153,11 +152,11 @@ class Interfacesupplierpricetrigger
 					}
 					
 				}else{
-					
-					if ($date_start_line < strtotime(date('Y-m-d')) || $date_end_line > strtotime(date('Y-m-d'))){
+					var_dump(strtotime(date('Y-m-d')), $supplierprice->date_end );
+					if ( strtotime(date('Y-m-d')) < $supplierprice->date_start ){
 						setEventMessage('La date du jour ne correspond pas aux dates du tarif choisi', 'errors');
 						return -1;
-					}else if($date_start_line < strtotime(date('Y-m-d'))){
+					}else if($supplierprice->date_end < strtotime(date('Y-m-d'))){
 						setEventMessage('La date du jour ne correspond pas aux dates du tarif choisi', 'errors');
 						return -1;
 					}else{
