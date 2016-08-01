@@ -145,12 +145,10 @@ class Interfacesupplierpricetrigger
 					
 					if ($date_start_line < $supplierprice->date_start || $date_end_line > $supplierprice->date_end){
 						setEventMessage('Les dates saisies ne correspondent pas à celles du tarif choisi', 'errors');
-						header("Location: ".$_SERVER["PHP_SELF"].'?id='.$idProduit);
-						return 0;
+						return -1;
 					}else if($date_start_line < $supplierprice->date_start){
 						setEventMessage('Les dates saisies ne correspondent pas à celles du tarif choisi', 'errors');
-						header("Location: ".$_SERVER["PHP_SELF"].'?id='.$idProduit);
-						return 0;
+						return -1;
 					}else{
 						setEventMessage('Ligne ajoutée', 'msgs');
 					}
@@ -159,12 +157,10 @@ class Interfacesupplierpricetrigger
 					
 					if ($date_start_line < strtotime(date('Y-m-d')) || $date_end_line > strtotime(date('Y-m-d'))){
 						setEventMessage('La date du jour ne correspond pas aux dates du tarif choisi', 'errors');
-						header("Location: ".$_SERVER["PHP_SELF"].'?id='.$idProduit);
-						return 0;
+						return -1;
 					}else if($date_start_line < strtotime(date('Y-m-d'))){
 						setEventMessage('La date du jour ne correspond pas aux dates du tarif choisi', 'errors');
-						header("Location: ".$_SERVER["PHP_SELF"].'?id='.$idProduit);
-						return 0;
+						return -1;
 					}else{
 						setEventMessage('Ligne ajoutée', 'msgs');
 					}
