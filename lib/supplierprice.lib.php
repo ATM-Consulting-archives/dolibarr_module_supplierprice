@@ -58,10 +58,8 @@ function getSql($productId)
 {
 	global $conf;
 	
-	// TODO Manque le total
 	//refaire un test si muiltidevise activé et reprendre la requete pour adapter si multidevise activé
 	$sql = 'SELECT sp_c.rowid AS id, sp_c.ref_fourn, count.label AS Pays, soc.nom AS Societe, sp_c.tva_tx, sp_c.qty, sp_c.remise_percent, sp_c.tva_tx, sp_c.price, sp_c.date_start, sp_c.date_end, " " AS Actions ';
-	//TODO ici viendra potentiellement le complément multidevise
 	if($conf->multidevise->enabled){}
 	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement sp_c ';
 	$sql .= 'left JOIN '.MAIN_DB_PREFIX.'societe soc ON soc.rowid=sp_c.fk_soc ';
@@ -118,7 +116,7 @@ function get_all_prices_fourn($id=''){
 function get_all_supplier_prices($fk_prixfourn, $date_deb=0, $datefin=0){
 	global $db;
 	
-	$TData = array();
+	$Data = 0;
 	
 	$sql = 'SELECT rowid ';
 	$sql .= 'FROM '.MAIN_DB_PREFIX.'supplierprice_conditionnement ';
@@ -130,11 +128,11 @@ function get_all_supplier_prices($fk_prixfourn, $date_deb=0, $datefin=0){
 	
 	if ($resql){
 		while ($line = $db->fetch_object($resql)){
-			$TData[] = $line->rowid;
+			$Data = $line->rowid;
 		}
 	}
 	
 	
-	return $TData;
+	return $Data;
 }
 

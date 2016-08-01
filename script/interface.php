@@ -28,26 +28,23 @@ switch ($action) {
 			
 			$pricefourn->fetch_product_fournisseur_price($supplierpriceid);
 			$TSupplierpriceIds = get_all_supplier_prices($pricefourn->product_fourn_price_id);
-			
 			$product->fetch($pricefourn->id);
 			
 			if (!empty($TSupplierpriceIds)){
-				foreach ($TSupplierpriceIds as $id_supplierprice){
-					$supplierprice = new TSupplierPrice;
-					
-					$supplierprice->load($PDOdb, $id_supplierprice);
-					$TData[] = array(
-								'rowid' => $pricefourn->product_fourn_price_id,
-								'ref' => $product->ref,
-								'libelle' => $product->label,
-								'price' => $pricefourn->fourn_price,
-								'remise' => $pricefourn->fourn_remise_percent,
-								'qty' => $pricefourn->fourn_qty,
-								'date_deb' => date('d/m/Y',$supplierprice->date_start),
-								'date_fin' => date('d/m/Y',$supplierprice->date_end)
-														
-					);
-				}
+				$supplierprice = new TSupplierPrice;
+				
+				$supplierprice->load($PDOdb, $id_supplierprice);
+				$TData[] = array(
+							'rowid' => $pricefourn->product_fourn_price_id,
+							'ref' => $product->ref,
+							'libelle' => $product->label,
+							'price' => $pricefourn->fourn_price,
+							'remise' => $pricefourn->fourn_remise_percent,
+							'qty' => $pricefourn->fourn_qty,
+							'date_deb' => date('d/m/Y',$supplierprice->date_start),
+							'date_fin' => date('d/m/Y',$supplierprice->date_end)
+													
+				);
 			}else{
 				
 				$TData[] = array(

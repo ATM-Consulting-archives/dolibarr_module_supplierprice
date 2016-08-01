@@ -104,7 +104,6 @@ class Actionssupplierprice
 								selectprice.empty();
 								var i=0;
 								
-								
 								$.each(response, function(){
 									console.log(response[i]);
 									
