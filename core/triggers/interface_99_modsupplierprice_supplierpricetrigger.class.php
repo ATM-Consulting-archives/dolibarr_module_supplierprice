@@ -126,9 +126,8 @@ class Interfacesupplierpricetrigger
 				return 0;
 			}
 			$PDOdb = new TPDOdb;
-			$date_start_line = strtotime(GETPOST('date_start'));
+			$date_start_line = strtotime(str_replace('/', '-', GETPOST('date_start')));
 			$date_end_line = strtotime(GETPOST('date_end'));
-			
 			$idprodfournprice = GETPOST('idprodfournprice');
 			$idProduit = GETPOST('id');
 			
@@ -143,7 +142,7 @@ class Interfacesupplierpricetrigger
 				
 				if(!empty($supplierprice->date_start)){
 					
-					if ($date_start_line < $supplierprice->date_start || $date_end_line > $supplierprice->date_end){
+					if ($date_end_line > $supplierprice->date_end){
 						setEventMessage('Les dates saisies ne correspondent pas à celles du tarif choisi', 'errors');
 						return -1;
 					}else if($date_start_line < $supplierprice->date_start){

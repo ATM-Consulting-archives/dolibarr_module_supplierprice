@@ -33,7 +33,7 @@ switch ($action) {
 			if (!empty($TSupplierpriceIds)){
 				$supplierprice = new TSupplierPrice;
 				
-				$supplierprice->load($PDOdb, $id_supplierprice);
+				$supplierprice->load($PDOdb, $TSupplierpriceIds);
 				$TData[] = array(
 							'rowid' => $pricefourn->product_fourn_price_id,
 							'ref' => $product->ref,
