@@ -56,9 +56,10 @@ dol_include_once('/categories/class/categorie.class.php');
 $langs->Load("other");
 $langs->Load("bank");
 $langs->Load("supplierprice@supplierprice");
+$fk_product = GETPOST('fk_product');
 
 // Get parameters
-$id			= empty(GETPOST('fk_product'))?GETPOST('id','int'):GETPOST('fk_product');
+$id			= empty($fk_product) ? GETPOST('id','int') : $fk_product;
 $ref		= GETPOST('ref','alpha');
 $action		= GETPOST('action','alpha');
 $fk_supplier_price = GETPOST('fk_supplier_price', 'int');
