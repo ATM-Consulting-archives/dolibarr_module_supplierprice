@@ -116,6 +116,8 @@ class Interfacesupplierpricetrigger
 		
 		if (empty($conf->fournisseur->enabled)) return 0;
 		
+		if (!defined('INC_FROM_DOLIBARR')) define('INC_FROM_DOLIBARR', true);
+		dol_include_once('/supplierprice/config.php');
 		
 		dol_include_once('/supplierprice/class/supplierprice.class.php');
 		dol_include_once('/supplierprice/lib/supplierprice.lib.php');
