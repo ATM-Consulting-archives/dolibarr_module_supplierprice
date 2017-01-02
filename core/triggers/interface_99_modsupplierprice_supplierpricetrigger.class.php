@@ -114,6 +114,8 @@ class Interfacesupplierpricetrigger
     public function run_trigger($action, $object, $user, $langs, $conf){
     	global $db;
 		
+		if (empty($conf->fournisseur->enabled)) return 0;
+		
 		dol_include_once('custom/supplierprice/class/supplierprice.class.php');
 		dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
         // Put here code you want to execute when a Dolibarr business events occurs.
