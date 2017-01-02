@@ -67,10 +67,10 @@ class Actionssupplierprice
 		
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once('/supplierprice/config.php');
-		dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
-		dol_include_once('custom/supplierprice/class/supplierprice.class.php');
-		dol_include_once('product/class/product.class.php');
-		dol_include_once('societe/class/societe.class.php');
+		dol_include_once('/supplierprice/lib/supplierprice.lib.php');
+		dol_include_once('/supplierprice/class/supplierprice.class.php');
+		dol_include_once('/product/class/product.class.php');
+		dol_include_once('/societe/class/societe.class.php');
 			
 		$TPDOdb = new TPDOdb;
 		$form = new Form($db);

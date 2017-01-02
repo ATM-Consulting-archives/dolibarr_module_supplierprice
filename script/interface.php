@@ -2,12 +2,12 @@
 
 require('../config.php');
 dol_include_once('/supplierprice/config.php');
-dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
-dol_include_once('custom/supplierprice/class/supplierprice.class.php');
-dol_include_once('fourn/class/fournisseur.commande.class.php');
-dol_include_once('fourn/class/fournisseur.facture.class.php');
-dol_include_once('fourn/class/fournisseur.product.class.php');
-dol_include_once('product/class/product.class.php');
+dol_include_once('/supplierprice/lib/supplierprice.lib.php');
+dol_include_once('/supplierprice/class/supplierprice.class.php');
+dol_include_once('/fourn/class/fournisseur.commande.class.php');
+dol_include_once('/fourn/class/fournisseur.facture.class.php');
+dol_include_once('/fourn/class/fournisseur.product.class.php');
+dol_include_once('/product/class/product.class.php');
 
 $action = GETPOST('action');
 

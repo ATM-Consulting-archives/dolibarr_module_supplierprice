@@ -116,8 +116,9 @@ class Interfacesupplierpricetrigger
 		
 		if (empty($conf->fournisseur->enabled)) return 0;
 		
-		dol_include_once('custom/supplierprice/class/supplierprice.class.php');
-		dol_include_once('custom/supplierprice/lib/supplierprice.lib.php');
+		
+		dol_include_once('/supplierprice/class/supplierprice.class.php');
+		dol_include_once('/supplierprice/lib/supplierprice.lib.php');
         // Put here code you want to execute when a Dolibarr business events occurs.
         // Data and type of action are stored into $object and $action
         // Uers
